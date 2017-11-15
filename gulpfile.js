@@ -449,7 +449,7 @@ gulp.task('test:demo', () => {
 });
 
 gulp.task('serve:demo', () => {
-  return execDemoCmd('serve --port=4201 --preserve-symlinks ', { cwd: `${config.demoDir}` });
+  return execDemoCmd('serve --port=4201 --preserve-symlinks --aot ', { cwd: `${config.demoDir}` });
 });
 
 gulp.task('build:demo', () => {

@@ -1,9 +1,9 @@
 import {
-    Component, ComponentFactoryResolver, Input, OnInit,
+    Component, ComponentFactoryResolver, Input, OnInit, Type,
     ViewChild
 } from '@angular/core';
-import {DynamicComponent} from './dynamic-component-item';
 import {DynamicHostDirective} from '../dynamic-host.directive';
+import {DynamicComponent} from '../../moz-layout.component';
 
 @Component({
     selector: 'ngx-moz-render',

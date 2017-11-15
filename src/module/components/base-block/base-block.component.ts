@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DynamicComponent} from '../../dynamic-component/dynamic-component/dynamic-component-item';
 import {NoComponentComponent} from '../no-component/no-component.component';
+import {DynamicComponent} from '../../moz-layout.component';
 
 @Component({
     selector: 'ngx-moz-base-block',

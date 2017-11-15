@@ -1,8 +1,11 @@
 ///<reference path="../../node_modules/@angular/core/src/metadata/directives.d.ts"/>
-import {Component, Input} from '@angular/core';
+import {Component, Input, Type} from '@angular/core';
 import {MozLayoutService} from './moz-layout.service';
-import {DynamicComponent} from './dynamic-component/dynamic-component/dynamic-component-item';
 
+export class DynamicComponent {
+    constructor(public component: Type<any>, public data: any) {
+    }
+}
 export interface MozLayoutComponentObjects {
     TH: DynamicComponent;
     MH: DynamicComponent;

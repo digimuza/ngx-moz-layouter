@@ -15,6 +15,7 @@ import {MidFooterComponent} from './components/mid-footer/mid-footer.component';
 import {BotFooterComponent} from './components/bot-footer/bot-footer.component';
 import {MozDynamicComponentModule} from './dynamic-component/moz-dynamic-component.module';
 import {NoComponentComponent} from './components/no-component/no-component.component';
+import {BaseBlockComponent} from './components/base-block/base-block.component';
 
 export * from './moz-layout.component';
 export * from './moz-layout.service';
@@ -25,6 +26,7 @@ export * from './moz-layout.service';
         MozDynamicComponentModule
     ],
     declarations: [
+        BaseBlockComponent,
         NoComponentComponent,
         TopHeaderComponent,
         MidHeaderComponent,
