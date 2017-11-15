@@ -14,11 +14,12 @@ export interface MozLayoutSizeObject {
     BF: number;
 }
 
+
+
 @Injectable()
 export class MozLayoutService {
 
     private size: MozLayoutSizeObject;
-
     constructor() {
         this.size = {
             TH: 50,

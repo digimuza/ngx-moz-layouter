@@ -13,15 +13,19 @@ import {MidContentComponent} from './components/mid-content/mid-content.componen
 import {TopFooterComponent} from './components/top-footer/top-footer.component';
 import {MidFooterComponent} from './components/mid-footer/mid-footer.component';
 import {BotFooterComponent} from './components/bot-footer/bot-footer.component';
+import {MozDynamicComponentModule} from './dynamic-component/moz-dynamic-component.module';
+import {NoComponentComponent} from './components/no-component/no-component.component';
 
 export * from './moz-layout.component';
 export * from './moz-layout.service';
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        MozDynamicComponentModule
     ],
     declarations: [
+        NoComponentComponent,
         TopHeaderComponent,
         MidHeaderComponent,
         BotHeaderComponent,
@@ -36,10 +40,14 @@ export * from './moz-layout.service';
         MozLayoutComponent
     ],
     exports: [
-        MozLayoutComponent
+        MozLayoutComponent,
+        NoComponentComponent
     ],
     providers: [
         MozLayoutService
+    ],
+    entryComponents: [
+        NoComponentComponent
     ]
 })
 export class MozLayoutModule {

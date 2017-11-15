@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {BaseBlockComponent} from '../base-block/base-block.component';
 
 @Component({
-  selector: 'ngx-moz-mid-content',
-  templateUrl: './mid-content.component.html',
-  styleUrls: ['./mid-content.component.scss']
+    selector: 'ngx-moz-mid-content',
+    templateUrl: './mid-content.component.html',
+    styleUrls: ['./mid-content.component.scss']
 })
-export class MidContentComponent implements OnInit {
+export class MidContentComponent extends BaseBlockComponent implements OnInit {
 
-  constructor() { }
+    constructor() {
+        super();
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

@@ -4,6 +4,7 @@ import {  MozLayoutModule  } from 'ngx-moz-layouter';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
+import { HomeTestComponent } from './home-test/home-test.component';
 
 @NgModule({
     imports: [
@@ -11,6 +12,7 @@ import { HomeComponent } from './home.component';
         MozLayoutModule.forRoot(),
         HomeRoutingModule,
     ],
-    declarations: [HomeComponent],
+    declarations: [HomeComponent, HomeTestComponent],
+    entryComponents: [HomeTestComponent]
 })
 export class HomeModule { }

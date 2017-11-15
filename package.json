@@ -1,6 +1,6 @@
 {
   "name": "ngx-moz-layouter",
-  "description": "Angular library built with ❤ using ngx-library yeoman generator.",
+  "description": "Angular 4 flexsible layout with amazing animations. Based on CSS grid",
   "version": "0.0.1",
   "filename": "./src/ngx-moz-layouter.js",
   "homepage": "http://github.com/digimuza/ngx-moz-layouter",

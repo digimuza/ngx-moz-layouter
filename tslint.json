@@ -110,7 +110,7 @@
     "directive-selector": [
       true,
       "attribute",
-      "ngx-moz",
+      "moz",
       "camelCase"
     ],
     "component-selector": [

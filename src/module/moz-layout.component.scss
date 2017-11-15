@@ -1,18 +1,10 @@
-$blue: #3ea5ce;
-$green: #99c712;
-$yellow: lighten(#ffba00, 5%);
-$red: #E53B3A;
-$colors: $blue, $green, $yellow, $red;
 .moz-css-grid-container {
   overflow: hidden;
   height: 100%;
 }
 
 @mixin common_block_style(){
-  $key: random( length($colors) );
-  $nth: nth( $colors, $key );
-  $main-color: $nth !default;
-  background: $main-color;
+  overflow: hidden;
 }
 ngx-moz-top-header {
   @include common_block_style;
