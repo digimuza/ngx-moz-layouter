@@ -1,0 +1,59 @@
+$blue: #3ea5ce;
+$green: #99c712;
+$yellow: lighten(#ffba00, 5%);
+$red: #E53B3A;
+$colors: $blue, $green, $yellow, $red;
+.moz-css-grid-container {
+  overflow: hidden;
+  height: 100%;
+}
+
+@mixin common_block_style(){
+  $key: random( length($colors) );
+  $nth: nth( $colors, $key );
+  $main-color: $nth !default;
+  background: $main-color;
+}
+ngx-moz-top-header {
+  @include common_block_style;
+}
+
+ngx-moz-mid-header {
+  @include common_block_style;
+}
+
+ngx-moz-bot-header {
+  @include common_block_style;
+}
+
+ngx-moz-top-footer {
+  @include common_block_style;
+}
+
+ngx-moz-mid-footer {
+  @include common_block_style;
+}
+
+ngx-moz-bot-footer {
+  @include common_block_style;
+}
+
+ngx-moz-left-content {
+  @include common_block_style;
+}
+
+ngx-moz-mid-content {
+  @include common_block_style;
+}
+
+ngx-moz-right-content {
+  @include common_block_style;
+}
+
+ngx-moz-left-sidebar {
+  @include common_block_style;
+}
+
+ngx-moz-right-sidebar {
+  @include common_block_style;
+}

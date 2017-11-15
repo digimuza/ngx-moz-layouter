@@ -1,0 +1,30 @@
+{
+  "generator-ngx-library": {
+    "version": "5.0.0",
+    "authorName": "andrius",
+    "authorEmail": "andrius.mozuraitis@adeoweb.lt",
+    "githubUsername": "digimuza",
+    "githubRepoName": "ngx-moz-layouter",
+    "projectName": "ngx-moz-layouter",
+    "projectVersion": "0.0.1",
+    "projectDescription": "Angular library built with ❤ using ngx-library yeoman generator.",
+    "projectKeywords": [
+      "ng",
+      "angular",
+      "library"
+    ],
+    "ngVersion": "4.0.0",
+    "ngModules": [
+      "core",
+      "common"
+    ],
+    "otherDependencies": [],
+    "ngPrefix": "ngx-moz",
+    "useGreenkeeper": false,
+    "useCompodoc": false,
+    "enforceNgGitCommitMsg": false,
+    "exclusions": [
+      "demo/proxy.conf.json"
+    ]
+  }
+}
