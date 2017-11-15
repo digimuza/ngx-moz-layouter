@@ -1,7 +1,7 @@
 {
   "name": "ngx-moz-layouter",
   "description": "Angular 4 flexsible layout with amazing animations. Based on CSS grid",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "filename": "./src/ngx-moz-layouter.js",
   "homepage": "http://github.com/digimuza/ngx-moz-layouter",
   "author": {
@@ -25,6 +25,7 @@
   "main": "./dist",
   "typings": "./dist",
   "scripts": {
+    "release.major":"gulp release --version=major --ghToken=5287eae8a50c16fee4843e13ef27e1393afce54a",
     "start": "gulp build",
     "test": " gulp test",
     "demo": " gulp build:demo",
