@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Title }     from '@angular/platform-browser';
 import {  MozLayoutComponentObjects  } from 'ngx-moz-layouter';
 import {  DynamicComponent  } from 'ngx-moz-layouter';
-import {HomeTestComponent} from "./home-test/home-test.component";
 import {MainContentComponentComponent} from "./main-content-component/main-content-component.component";
 import {SampleThComponent} from "./sample-th/sample-th.component";
 import {SampleMhComponent} from "./sample-mh/sample-mh.component";

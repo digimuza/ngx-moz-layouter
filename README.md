@@ -1,8 +1,8 @@
 <p align="center">
-  <img height="256px" width="256px" style="text-align: center;" src="https://cdn.rawgit.com/digimuza/ngx-moz-layouter/master/demo/src/assets/logo.svg">
+  <img height="25parameter="256px" style="text-align: center;" src="https://cdn.rawgit.com/digimuza/ngx-moz-layouter/master/demo/src/assets/logo.svg">
 </p>
 
-# ngx-moz-layouter - Angular library built with ❤ using ngx-library yeoman generator.
+# ngx-moz-layouter - Angular 4 library. That create amazing and flexible layout for your application 
 
 [![npm version](https://badge.fury.io/js/ngx-moz-layouter.svg)](https://badge.fury.io/js/ngx-moz-layouter)
 [![Build Status](https://travis-ci.org/digimuza/ngx-moz-layouter.svg?branch=master)](https://travis-ci.org/digimuza/ngx-moz-layouter)
@@ -69,6 +69,111 @@ export class OtherModule {
 
 ## Usage
 
+---
+##### Component usage
+>**Note**: Define your layout components:
+```js
+new DynamicComponent(ComponentClass,dataThatYouWantInject)
+```
+
+>**Note**: Injected data will be accesible in data property:
+
+---
+```html
+<ngx-moz-layout [layoutComponents]="components"></ngx-moz-layout>
+```
+
+```js
+import { Component, OnInit } from '@angular/core';
+import {  MozLayoutComponentObjects  } from 'ngx-moz-layouter';
+import {  DynamicComponent  } from 'ngx-moz-layouter';
+import {YourMainContentComponent} from "./main-content-component/main-content-component.component";
+import {SampleThComponent} from "./sample-th/sample-th.component";
+import {SampleMhComponent} from "./sample-mh/sample-mh.component";
+import {SampleBhComponent} from "./sample-bh/sample-bh.component";
+import {SampleLsComponent} from "./sample-ls/sample-ls.component";
+import {SampleLcComponent} from "./sample-lc/sample-lc.component";
+import {SampleRcComponent} from "./sample-rc/sample-rc.component";
+import {SampleRsComponent} from "./sample-rs/sample-rs.component";
+import {SampleMfComponent} from "./sample-mf/sample-mf.component";
+import {SampleBfComponent} from "./sample-bf/sample-bf.component";
+import {SampleTfComponent} from "./sample-tf/sample-tf.component";
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
+})
+export class HomeComponent implements OnInit {
+
+  components:  MozLayoutComponentObjects = {
+    TH:new DynamicComponent(YourTopHeaderComponent,[]),
+    MH:new DynamicComponent(YourMiddleHeaderComponent,[]),
+    BH:new DynamicComponent(YourBottomHeaderComponent,[]),
+    LS:new DynamicComponent(YourLeftSideBarComponent,[]),
+    LC:new DynamicComponent(YourLeftContentComponent,[]),
+    MC:new DynamicComponent(YourMainContentComponent,[]),
+    RC:new DynamicComponent(YourRightContentComponent,[]),
+    RS:new DynamicComponent(YourRightSideBarComponent,[]),
+    TF:new DynamicComponent(YourTopFooterComponent,[]),
+    MF:new DynamicComponent(YourMiddleFooterComponent,[]),
+    BF:new DynamicComponent(YourBottomFooter,[]),
+  };
+  constructor() { }
+
+}
+```
+
+---
+##### Layout service usage
+>**Note**: Layout can be controled from any module component:
+
+```js
+
+    //Set state of area
+    // area parameter accepts TH,MH,BH,LS,LC,RC,RS,TF,MF,BF
+    // states parrameter on,off and your defined layout states
+    setAreaState(area: string, state: string): void;
+    
+    //toggle between two states
+    toggleBetween(area: string, state1: string, state2: string): void;
+    
+    //Get specific area state - fire event when application finishes animation
+    getAreaState(area: string): BehaviorSubject<string>;
+    
+    //Get object that contain all application states
+    getAreaStates(): MozCurrentLayoutState;
+    
+    //Initial application state 
+    hardSizeSet(size: MozLayoutSizeObject): void;
+    
+    //Set specific area size to specific size
+    setLayoutAreaSize(area: string, value: number): void;
+
+```
+
+---
+
+
+```js
+import {Component, OnInit} from '@angular/core';
+import {  MozLayoutService  } from 'ngx-moz-layouter';
+
+@Component({..})
+export class MainContentComponentComponent implements OnInit {
+
+    constructor(public layout: MozLayoutService) {
+    }
+
+    ngOnInit() {
+    }
+
+    toggle(area:string) {
+        this.layout.toggleBetween(area,'on','off');
+    }
+
+}
+
+```
 
 
 ## License
