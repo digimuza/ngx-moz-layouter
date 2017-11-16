@@ -38,12 +38,12 @@ map: {
 
 Once installed you need to import the main module:
 ```js
-import { LibModule } from 'ngx-moz-layouter';
+import { MozLayoutModule } from 'ngx-moz-layouter';
 ```
 The only remaining part is to list the imported module in your application module. The exact method will be slightly
 different for the root (top-level) module for which you should end up with the code similar to (notice ` MozLayoutModule.forRoot()`):
 ```js
-import { LibModule } from 'ngx-moz-layouter';
+import { MozLayoutModule } from 'ngx-moz-layouter';
 
 @NgModule({
   declarations: [AppComponent, ...],
