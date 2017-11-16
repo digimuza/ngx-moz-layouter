@@ -86,7 +86,7 @@ new DynamicComponent(ComponentClass,dataThatYouWantInject)
 ```js
 ...
 @Component({...})
-export class HomeComponent implements OnInit {
+export class SampleComponent implements OnInit {
 
   components:  MozLayoutComponentObjects = {
     TH:new DynamicComponent(YourTopHeaderComponent,[]),
