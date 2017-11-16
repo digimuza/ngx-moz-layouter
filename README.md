@@ -85,11 +85,7 @@ new DynamicComponent(ComponentClass,dataThatYouWantInject)
 
 ```js
 ...
-@Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
-})
+@Component({...})
 export class HomeComponent implements OnInit {
 
   components:  MozLayoutComponentObjects = {
@@ -103,7 +99,7 @@ export class HomeComponent implements OnInit {
     RS:new DynamicComponent(YourRightSideBarComponent,[]),
     TF:new DynamicComponent(YourTopFooterComponent,[]),
     MF:new DynamicComponent(YourMiddleFooterComponent,[]),
-    BF:new DynamicComponent(YourBottomFooter,[]),
+    BF:new DynamicComponent(YourBottomFooterComponent,[]),
   };
   constructor() { }
 
