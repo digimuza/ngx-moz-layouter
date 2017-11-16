@@ -2,7 +2,7 @@
   <img height="25parameter="256px" style="text-align: center;" src="https://cdn.rawgit.com/digimuza/ngx-moz-layouter/master/demo/src/assets/logo.svg">
 </p>
 
-# ngx-moz-layouter - Angular 4 library. That create amazing and flexible layout for your application 
+# ngx-moz-layouter - Angular 4 library. That create amazing and flexible layout for your application #alpha
 
 [![npm version](https://badge.fury.io/js/ngx-moz-layouter.svg)](https://badge.fury.io/js/ngx-moz-layouter)
 [![Build Status](https://travis-ci.org/digimuza/ngx-moz-layouter.svg?branch=master)](https://travis-ci.org/digimuza/ngx-moz-layouter)
@@ -137,14 +137,8 @@ export class HomeComponent implements OnInit {
     //toggle between two states
     toggleBetween(area: string, state1: string, state2: string): void;
     
-    //Get specific area state - fire event when application finishes animation
+    //Get specific area state - fires event when specific layout finishes animation
     getAreaState(area: string): BehaviorSubject<string>;
-    
-    //Get object that contain all application states
-    getAreaStates(): MozCurrentLayoutState;
-    
-    //Initial application state 
-    hardSizeSet(size: MozLayoutSizeObject): void;
     
     //Set specific area size to specific size
     setLayoutAreaSize(area: string, value: number): void;
