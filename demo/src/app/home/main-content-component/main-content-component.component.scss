@@ -1,0 +1,100 @@
+.application-control{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+@mixin centered(){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.toogle-controller{
+  width: 400px;
+  height: 400px;
+
+  display: grid;
+
+  grid-template-rows: 50px 50px 50px 100px 50px 50px 50px;
+  grid-template-columns: 50px 50px 200px 50px 50px;
+
+  grid-template-areas:
+          "TH TH TH TH TH"
+          "MH MH MH MH MH"
+          "BH BH BH BH BH"
+          "LS LC MC RC RS"
+          "TF TF TF TF TF"
+          "MF MF MF MF MF"
+          "BF BF BF BF BF"
+  ;
+  .indication{
+    width: 15px;
+    height: 15px;
+    background: #f7f7f7;
+  }
+
+  .indication.active{
+    background: #000;
+  }
+
+  .item{
+    @include centered();
+    color: #fff;
+
+    cursor: pointer;
+  }
+
+  .th{
+    grid-area: TH;
+    background: #64B5F6;
+  }
+  .mh{
+    grid-area: MH;
+    background: #42A5F5;
+  }
+  .bh{
+    grid-area: BH;
+    background: #2196F3;
+  }
+
+  .ls{
+    grid-area: LS;
+    background: #66BB6A;
+  }
+
+  .lc{
+    grid-area: LC;
+    background: #4CAF50;
+  }
+
+  .mc{
+    grid-area: MC;
+    background: #fff;
+  }
+
+  .rc{
+    grid-area: RC;
+    background: #4CAF50;
+  }
+
+
+  .rs{
+    grid-area: RS;
+    background: #66BB6A;
+  }
+
+
+  .tf{
+    grid-area: TF;
+    background: #FF5722;
+  }
+  .mf{
+    grid-area: MF;
+    background: #F4511E;
+  }
+  .bf{
+    grid-area: BF;
+    background: #E64A19;
+  }
+}
