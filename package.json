@@ -25,7 +25,7 @@
   "main": "./dist",
   "typings": "./dist",
   "scripts": {
-    "release.major":"gulp release --version=major --ghToken=5287eae8a50c16fee4843e13ef27e1393afce54a",
+    "release.major":"gulp release --version=major --ghToken=b3dcb96724c0256ff2552822a86169d3ef4a586d",
     "start": "gulp build",
     "test": " gulp test",
     "demo": " gulp build:demo",
