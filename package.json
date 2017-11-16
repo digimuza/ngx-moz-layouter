@@ -1,11 +1,11 @@
 {
   "name": "ngx-moz-layouter",
   "description": "Angular 4 flexsible layout with amazing animations. Based on CSS grid",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "filename": "./src/ngx-moz-layouter.js",
   "homepage": "http://github.com/digimuza/ngx-moz-layouter",
   "author": {
-    "name": "andrius",
+    "name": "digimuza",
     "url": "http://github.com/digimuza"
   },
   "repository": {
