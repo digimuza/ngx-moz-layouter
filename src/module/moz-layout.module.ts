@@ -1,4 +1,4 @@
-import {NgModule, ModuleWithProviders} from '@angular/core';
+import {NgModule, ModuleWithProviders, InjectionToken} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MozLayoutService} from './moz-layout.service';
 import {MozLayoutComponent} from './moz-layout.component';
@@ -19,6 +19,43 @@ import {BaseBlockComponent} from './components/base-block/base-block.component';
 
 export * from './moz-layout.component';
 export * from './moz-layout.service';
+
+export interface MozLayoutAreaState {
+    state: string;
+    value: number;
+}
+
+export interface LayoutInitialStates {
+    TH: string;
+    MH: string;
+    BH: string;
+    LS: string;
+    LC: string;
+    RC: string;
+    RS: string;
+    TF: string;
+    MF: string;
+    BF: string;
+}
+
+export interface MozLayoutAreaStates {
+    TH: MozLayoutAreaState[];
+    MH: MozLayoutAreaState[];
+    BH: MozLayoutAreaState[];
+    LS: MozLayoutAreaState[];
+    LC: MozLayoutAreaState[];
+    RC: MozLayoutAreaState[];
+    RS: MozLayoutAreaState[];
+    TF: MozLayoutAreaState[];
+    MF: MozLayoutAreaState[];
+    BF: MozLayoutAreaState[];
+}
+
+export interface MozModuleInitialConfig {
+    initialStates: LayoutInitialStates;
+    availableStates: MozLayoutAreaStates;
+}
+const MOZ_LAYOUT_CONFIG = new InjectionToken('MOZ_LAYOUT_CONFIG');
 
 @NgModule({
     imports: [
@@ -56,7 +93,9 @@ export class MozLayoutModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: MozLayoutModule,
-            providers: [MozLayoutService]
+            providers: [
+                MozLayoutService
+            ]
         };
     }
 }

@@ -1,3 +1,17 @@
+export const MozLayoutInitialStates = {
+    TH: 'off',
+    MH: 'off',
+    BH: 'off',
+    LS: 'off',
+    LC: 'off',
+    RC: 'off',
+    RS: 'off',
+    TF: 'off',
+    MF: 'off',
+    BF: 'off'
+};
+
+
 export const MozLayoutStates = {
     TH: [
         {

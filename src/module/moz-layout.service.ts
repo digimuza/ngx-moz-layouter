@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {MozLayoutAnimations} from './class/moz-animations';
-import {MozLayoutStates} from './defaults.constant';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {MozLayoutAreaState, MozLayoutAreaStates, MozModuleInitialConfig} from './moz-layout.module';
+import {MozLayoutConfigFactory} from './class/moz-layout-config-factory';
+
 
 export interface MozLayoutSizeObject {
     TH: number;
@@ -16,10 +18,6 @@ export interface MozLayoutSizeObject {
     BF: number;
 }
 
-export interface MozLayoutAreaState {
-    state: string;
-    value: number;
-}
 
 export interface MozCurrentLayoutState {
     TH: BehaviorSubject<string>;
@@ -35,20 +33,6 @@ export interface MozCurrentLayoutState {
 }
 
 
-export interface MozLayoutAreaStates {
-    TH: MozLayoutAreaState[];
-    MH: MozLayoutAreaState[];
-    BH: MozLayoutAreaState[];
-    LS: MozLayoutAreaState[];
-    LC: MozLayoutAreaState[];
-    RC: MozLayoutAreaState[];
-    RS: MozLayoutAreaState[];
-    TF: MozLayoutAreaState[];
-    MF: MozLayoutAreaState[];
-    BF: MozLayoutAreaState[];
-}
-
-
 @Injectable()
 export class MozLayoutService {
 
@@ -56,25 +40,18 @@ export class MozLayoutService {
 
     private layoutStates: MozLayoutAreaStates;
 
-    private curentlayoutState: MozCurrentLayoutState;
+    private curentLayoutState: MozCurrentLayoutState;
 
     constructor() {
-        this.size = {
-            TH: 0,
-            MH: 0,
-            BH: 0,
-            LS: 0,
-            LC: 0,
-            RC: 0,
-            RS: 0,
-            TF: 0,
-            MF: 0,
-            BF: 0
-        };
 
-        this.layoutStates = MozLayoutStates;
+        const config = this.getLayoutConfigFromLocalStorage();
 
-        this.curentlayoutState = {
+        console.log(config);
+        this.getInitialSizes(config);
+
+        this.layoutStates = config.availableStates;
+
+        this.curentLayoutState = {
             TH: new BehaviorSubject(this.getLayoutState('TH')),
             MH: new BehaviorSubject(this.getLayoutState('MH')),
             BH: new BehaviorSubject(this.getLayoutState('BH')),
@@ -89,6 +66,11 @@ export class MozLayoutService {
 
     }
 
+    public rewriteDefaulAreaStates(area: string, states: MozLayoutAreaState[]) {
+        this.isSizeString(area);
+        this.layoutStates[area] = states;
+    }
+
     public setAreaState(area: string, state: string) {
         this.isSizeString(area);
         if (this.stateExist(area, state)) {
@@ -100,10 +82,6 @@ export class MozLayoutService {
 
     public toggleBetween(area: string, state1: string, state2: string) {
         this.isSizeString(area);
-
-        console.log('State Exist', this.stateExist(area, state1) && this.stateExist(area, state2));
-        console.log('AREA', area, this.layoutStates[area]);
-
 
         if (this.stateExist(area, state1) && this.stateExist(area, state2)) {
             this.getAreaState(area).subscribe((state) => {
@@ -123,15 +101,21 @@ export class MozLayoutService {
     }
 
     public getAreaState(area: string): BehaviorSubject<string> {
-        return this.curentlayoutState[area];
+        return this.curentLayoutState[area];
     }
 
     public getAreaStates(): MozCurrentLayoutState {
-        return this.curentlayoutState;
+        return this.curentLayoutState;
     }
 
-    public hardSizeSet(size: MozLayoutSizeObject) {
-        this.size = size;
+    public setLayoutConfig(config: MozModuleInitialConfig, save: boolean) {
+        const configMerger = new MozLayoutConfigFactory(config);
+        const normalizedConfig = configMerger.getMergedConfig();
+        this.getInitialSizes(normalizedConfig);
+        this.trigerLayoutStateChange();
+        if (save) {
+            localStorage.setItem('MOZ_LAYOUT_CONFIG', JSON.stringify(normalizedConfig));
+        }
     }
 
     public setLayoutAreaSize(area: string, value: number) {
@@ -139,9 +123,10 @@ export class MozLayoutService {
         const animation = new MozLayoutAnimations(this.size[area], value);
         animation.animate().subscribe((newValue: number) => {
             this.size[area] = newValue;
+            this.curentLayoutState[area].next(this.getLayoutStateBasedOnValue(area, newValue));
+
         }, () => {
         }, () => {
-            this.curentlayoutState[area].next(this.getLayoutState(area));
         });
     }
 
@@ -177,6 +162,38 @@ export class MozLayoutService {
         return style;
     }
 
+    private getInitialSizes(config: MozModuleInitialConfig) {
+        this.size = {
+            TH: this.findStateOfLayoutFromProvidedConfig(config, 'TH').value,
+            MH: this.findStateOfLayoutFromProvidedConfig(config, 'MH').value,
+            BH: this.findStateOfLayoutFromProvidedConfig(config, 'BH').value,
+            LS: this.findStateOfLayoutFromProvidedConfig(config, 'LS').value,
+            LC: this.findStateOfLayoutFromProvidedConfig(config, 'LC').value,
+            RC: this.findStateOfLayoutFromProvidedConfig(config, 'RC').value,
+            RS: this.findStateOfLayoutFromProvidedConfig(config, 'RS').value,
+            TF: this.findStateOfLayoutFromProvidedConfig(config, 'TF').value,
+            MF: this.findStateOfLayoutFromProvidedConfig(config, 'MF').value,
+            BF: this.findStateOfLayoutFromProvidedConfig(config, 'BF').value
+        };
+    }
+
+    private findStateOfLayoutFromProvidedConfig(config: MozModuleInitialConfig, area: string) {
+        const initialState: string = config.initialStates[area];
+
+        return this.findStateInStateArray(config.availableStates[area], initialState);
+    }
+
+    private findStateInStateArray(states: MozLayoutAreaState[], state: string): MozLayoutAreaState {
+        const findedState = states.find((availableState: MozLayoutAreaState) => {
+            return availableState.state === state;
+        });
+
+        if (!findedState) {
+            throw new Error('State was not find');
+        }
+        return findedState;
+    }
+
     private generateGridTemplate(): string {
         const gridTemplate = [
             'TH TH TH TH TH',
@@ -199,6 +216,19 @@ export class MozLayoutService {
             throw new Error('Incorrect value check documentation: https://www.google.com/');
         }
         return true;
+    }
+
+    private getLayoutStateBasedOnValue(area: string, value: number): string {
+        const stateExist = this.layoutStates[area].find((stateItem: MozLayoutAreaState) => {
+            return stateItem.value === value;
+        });
+
+        if (stateExist) {
+            return stateExist.state;
+        }
+
+        return 'transition';
+
     }
 
     private getLayoutState(area: string) {
@@ -232,5 +262,34 @@ export class MozLayoutService {
         });
 
         return !!stateExist;
+    }
+
+    private isValidConfig(config: any) {
+        if (config) {
+            if (config.hasOwnProperty('initialStates') && config.hasOwnProperty('initialStates')) {
+                // Assume that this is valid object;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    private getLayoutConfigFromLocalStorage(): MozModuleInitialConfig {
+
+        const config = JSON.parse(localStorage.getItem('MOZ_LAYOUT_CONFIG'));
+
+        const configMerger = new MozLayoutConfigFactory(config);
+
+        return configMerger.getMergedConfig();
+    }
+
+    private trigerLayoutStateChange() {
+        for (const areaKey in this.curentLayoutState) {
+            if (this.curentLayoutState.hasOwnProperty(areaKey)) {
+                this.curentLayoutState[areaKey].next(this.getLayoutState(areaKey));
+            }
+        }
     }
 }
