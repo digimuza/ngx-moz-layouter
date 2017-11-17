@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
 import {MozLayoutAnimations} from './class/moz-animations';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {MozLayoutAreaState, MozLayoutAreaStates, MozModuleInitialConfig} from './moz-layout.module';
+import {
+    MozLayoutAreaState, MozLayoutAreaStates, MozModuleInitialConfig,
+    MozPartialLayoutConfig
+} from './moz-layout.module';
 import {MozLayoutConfigFactory} from './class/moz-layout-config-factory';
 
 
@@ -108,7 +111,7 @@ export class MozLayoutService {
         return this.curentLayoutState;
     }
 
-    public setLayoutConfig(config: MozModuleInitialConfig, save: boolean) {
+    public setLayoutConfig(config: MozPartialLayoutConfig, save: boolean) {
         const configMerger = new MozLayoutConfigFactory(config);
         const normalizedConfig = configMerger.getMergedConfig();
         this.getInitialSizes(normalizedConfig);

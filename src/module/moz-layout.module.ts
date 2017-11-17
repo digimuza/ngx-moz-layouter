@@ -25,6 +25,33 @@ export interface MozLayoutAreaState {
     value: number;
 }
 
+export interface MozPartialLayoutConfig {
+    initialStates?: {
+        TH?: string;
+        MH?: string;
+        BH?: string;
+        LS?: string;
+        LC?: string;
+        RC?: string;
+        RS?: string;
+        TF?: string;
+        MF?: string;
+        BF?: string;
+    };
+    availableStates?: {
+        TH?: MozLayoutAreaState[];
+        MH?: MozLayoutAreaState[];
+        BH?: MozLayoutAreaState[];
+        LS?: MozLayoutAreaState[];
+        LC?: MozLayoutAreaState[];
+        RC?: MozLayoutAreaState[];
+        RS?: MozLayoutAreaState[];
+        TF?: MozLayoutAreaState[];
+        MF?: MozLayoutAreaState[];
+        BF?: MozLayoutAreaState[];
+    };
+}
+
 export interface LayoutInitialStates {
     TH: string;
     MH: string;
@@ -55,6 +82,7 @@ export interface MozModuleInitialConfig {
     initialStates: LayoutInitialStates;
     availableStates: MozLayoutAreaStates;
 }
+
 const MOZ_LAYOUT_CONFIG = new InjectionToken('MOZ_LAYOUT_CONFIG');
 
 @NgModule({
