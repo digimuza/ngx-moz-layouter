@@ -9,6 +9,11 @@ import {MozLayoutService} from 'ngx-moz-layouter';
 export class MainContentComponentComponent implements OnInit {
 
     constructor(public layout: MozLayoutService) {
+        this.layout.setLayoutConfig({
+            initialStates:{
+                TH:'on'
+            }
+        },false);
     }
 
     ngOnInit() {

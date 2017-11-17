@@ -88,13 +88,12 @@ export class MozLayoutService {
 
         if (this.stateExist(area, state1) && this.stateExist(area, state2)) {
             this.getAreaState(area).subscribe((state) => {
-                console.log(state);
                 if (state === state1) {
-                    this.setLayoutAreaSize(area, this.getState(area, state2).value);
+                    this.curentLayoutState[area].next(state2);
                 }
 
                 if (state === state2) {
-                    this.setLayoutAreaSize(area, this.getState(area, state1).value);
+                    this.curentLayoutState[area].next(state1);
                 }
 
             }).unsubscribe();
@@ -126,8 +125,6 @@ export class MozLayoutService {
         const animation = new MozLayoutAnimations(this.size[area], value);
         animation.animate().subscribe((newValue: number) => {
             this.size[area] = newValue;
-            this.curentLayoutState[area].next(this.getLayoutStateBasedOnValue(area, newValue));
-
         }, () => {
         }, () => {
         });
@@ -286,6 +283,17 @@ export class MozLayoutService {
         const configMerger = new MozLayoutConfigFactory(config);
 
         return configMerger.getMergedConfig();
+    }
+
+    private layoutStatesEvents() {
+        for (const areaKey in this.curentLayoutState) {
+            if (this.curentLayoutState.hasOwnProperty(areaKey)) {
+                this.curentLayoutState[areaKey].subscribe((areaState: string) => {
+                    let state = this.getState(areaKey, areaState);
+                    this.setLayoutAreaSize(areaKey, state.value);
+                });
+            }
+        }
     }
 
     private trigerLayoutStateChange() {
