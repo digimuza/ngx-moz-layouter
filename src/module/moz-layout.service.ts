@@ -6,6 +6,7 @@ import {
     MozPartialLayoutConfig
 } from './moz-layout.module';
 import {MozLayoutConfigFactory} from './class/moz-layout-config-factory';
+import {MozServiceDataLoad} from './service/moz-service.data.load';
 
 
 export interface MozLayoutSizeObject {
@@ -37,24 +38,19 @@ export interface MozCurrentLayoutState {
 
 
 @Injectable()
-export class MozLayoutService {
+export class MozLayoutService extends MozServiceDataLoad{
 
-    private size: MozLayoutSizeObject;
-
+    private currentLayoutSize: MozLayoutSizeObject;
     private layoutStates: MozLayoutAreaStates;
-
-    private curentLayoutState: MozCurrentLayoutState;
+    private currentLayoutState: MozCurrentLayoutState;
 
     constructor() {
 
+        super();
         const config = this.getLayoutConfigFromLocalStorage();
-
-        console.log(config);
         this.getInitialSizes(config);
-
         this.layoutStates = config.availableStates;
-
-        this.curentLayoutState = {
+        this.currentLayoutState = {
             TH: new BehaviorSubject(this.getLayoutState('TH')),
             MH: new BehaviorSubject(this.getLayoutState('MH')),
             BH: new BehaviorSubject(this.getLayoutState('BH')),
@@ -89,11 +85,11 @@ export class MozLayoutService {
         if (this.stateExist(area, state1) && this.stateExist(area, state2)) {
             this.getAreaState(area).subscribe((state) => {
                 if (state === state1) {
-                    this.curentLayoutState[area].next(state2);
+                    this.currentLayoutState[area].next(state2);
                 }
 
                 if (state === state2) {
-                    this.curentLayoutState[area].next(state1);
+                    this.currentLayoutState[area].next(state1);
                 }
 
             }).unsubscribe();
@@ -103,11 +99,11 @@ export class MozLayoutService {
     }
 
     public getAreaState(area: string): BehaviorSubject<string> {
-        return this.curentLayoutState[area];
+        return this.currentLayoutState[area];
     }
 
     public getAreaStates(): MozCurrentLayoutState {
-        return this.curentLayoutState;
+        return this.currentLayoutState;
     }
 
     public setLayoutConfig(config: MozPartialLayoutConfig, save: boolean) {
@@ -122,9 +118,9 @@ export class MozLayoutService {
 
     public setLayoutAreaSize(area: string, value: number) {
         this.isSizeString(area);
-        const animation = new MozLayoutAnimations(this.size[area], value);
+        const animation = new MozLayoutAnimations(this.currentLayoutSize[area], value);
         animation.animate().subscribe((newValue: number) => {
-            this.size[area] = newValue;
+            this.currentLayoutSize[area] = newValue;
         }, () => {
         }, () => {
         });
@@ -142,28 +138,28 @@ export class MozLayoutService {
         style['grid-template-areas'] = this.generateGridTemplate();
 
         style['grid-template-rows'] = [
-            this.size.TH + 'px',
-            this.size.MH + 'px',
-            this.size.BH + 'px',
+            this.currentLayoutSize.TH + 'px',
+            this.currentLayoutSize.MH + 'px',
+            this.currentLayoutSize.BH + 'px',
             'auto',
-            this.size.TF + 'px',
-            this.size.MF + 'px',
-            this.size.BF + 'px',
+            this.currentLayoutSize.TF + 'px',
+            this.currentLayoutSize.MF + 'px',
+            this.currentLayoutSize.BF + 'px',
         ].join(' ');
 
         style['grid-template-columns'] = [
-            this.size.LS + 'px',
-            this.size.LC + 'px',
+            this.currentLayoutSize.LS + 'px',
+            this.currentLayoutSize.LC + 'px',
             'auto',
-            this.size.RC + 'px',
-            this.size.RS + 'px',
+            this.currentLayoutSize.RC + 'px',
+            this.currentLayoutSize.RS + 'px',
         ].join(' ');
 
         return style;
     }
 
     private getInitialSizes(config: MozModuleInitialConfig) {
-        this.size = {
+        this.currentLayoutSize = {
             TH: this.findStateOfLayoutFromProvidedConfig(config, 'TH').value,
             MH: this.findStateOfLayoutFromProvidedConfig(config, 'MH').value,
             BH: this.findStateOfLayoutFromProvidedConfig(config, 'BH').value,
@@ -212,7 +208,7 @@ export class MozLayoutService {
     }
 
     private isSizeString(area: string) {
-        if (!this.size.hasOwnProperty(area)) {
+        if (!this.currentLayoutSize.hasOwnProperty(area)) {
             throw new Error('Incorrect value check documentation: https://www.google.com/');
         }
         return true;
@@ -235,7 +231,7 @@ export class MozLayoutService {
         this.isSizeString(area);
 
         const layoutState: MozLayoutAreaState = this.layoutStates[area].find((state: MozLayoutAreaState) => {
-            return state.value === this.size[area];
+            return state.value === this.currentLayoutSize[area];
         });
 
         if (layoutState) {
@@ -277,19 +273,16 @@ export class MozLayoutService {
 
 
     private getLayoutConfigFromLocalStorage(): MozModuleInitialConfig {
-
         const config = JSON.parse(localStorage.getItem('MOZ_LAYOUT_CONFIG'));
-
         const configMerger = new MozLayoutConfigFactory(config);
-
         return configMerger.getMergedConfig();
     }
 
     private layoutStatesEvents() {
-        for (const areaKey in this.curentLayoutState) {
-            if (this.curentLayoutState.hasOwnProperty(areaKey)) {
-                this.curentLayoutState[areaKey].subscribe((areaState: string) => {
-                    let state = this.getState(areaKey, areaState);
+        for (const areaKey in this.currentLayoutState) {
+            if (this.currentLayoutState.hasOwnProperty(areaKey)) {
+                this.currentLayoutState[areaKey].subscribe((areaState: string) => {
+                    const state = this.getState(areaKey, areaState);
                     this.setLayoutAreaSize(areaKey, state.value);
                 });
             }
@@ -297,9 +290,9 @@ export class MozLayoutService {
     }
 
     private trigerLayoutStateChange() {
-        for (const areaKey in this.curentLayoutState) {
-            if (this.curentLayoutState.hasOwnProperty(areaKey)) {
-                this.curentLayoutState[areaKey].next(this.getLayoutState(areaKey));
+        for (const areaKey in this.currentLayoutState) {
+            if (this.currentLayoutState.hasOwnProperty(areaKey)) {
+                this.currentLayoutState[areaKey].next(this.getLayoutState(areaKey));
             }
         }
     }
