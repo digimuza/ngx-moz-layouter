@@ -8,7 +8,6 @@ import {MozLayoutService} from 'ngx-moz-layouter';
 })
 export class SampleRsComponent implements OnInit {
 
-    animationSpeed: number = 1;
 
     constructor(public layout: MozLayoutService) {
     }
@@ -17,9 +16,8 @@ export class SampleRsComponent implements OnInit {
     }
 
     animationChanged(areaKey: string, animation: string, speed: number = 1) {
-        console.log(areaKey, animation, this.animationSpeed);
         this.layout.setAreaAnimation(areaKey, {
-            speed: speed,
+            speed: 1,
             animation: animation
         });
     }
