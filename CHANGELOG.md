@@ -1,3 +1,8 @@
+<a name="1.9.3"></a>
+## [1.9.3](https://github.com/digimuza/ngx-moz-layouter/compare/v1.9.2...v1.9.3) (2017-11-24)
+
+
+
 <a name="1.9.2"></a>
 ## [1.9.2](https://github.com/digimuza/ngx-moz-layouter/compare/v1.9.1...v1.9.2) (2017-11-16)
 
