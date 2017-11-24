@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {MozDomManipulator} from './service/moz-dom-manipulator';
+import {MozPartialLayoutConfig} from './moz-layout.module';
+import {MozLocalStorageKey} from './service/moz-service.data.load';
 
 
 export interface MozLayoutSizeObject {
@@ -33,6 +35,19 @@ export interface MozCurrentLayoutState {
 
 @Injectable()
 export class MozLayoutService extends MozDomManipulator {
+    public static initialConfig(config: MozPartialLayoutConfig, single: boolean = true) {
+        const conf = localStorage.getItem('MOZ_INITIAL_SAVE');
+
+        if (single) {
+            if (conf !== 'save') {
+                localStorage.setItem(MozLocalStorageKey, JSON.stringify(config));
+                localStorage.setItem('MOZ_INITIAL_SAVE', 'save');
+            }
+        } else {
+            localStorage.setItem(MozLocalStorageKey, JSON.stringify(config));
+        }
+
+    }
 
     constructor() {
         super();
@@ -73,5 +88,6 @@ export class MozLayoutService extends MozDomManipulator {
             console.error(error);
         }
     }
+
 
 }

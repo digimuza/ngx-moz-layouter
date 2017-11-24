@@ -1,11 +1,12 @@
-import {MozLayoutInitialStates, MozLayoutStates} from '../defaults.constant';
+import {MozDefaultLayoutAnimations, MozLayoutInitialStates, MozLayoutStates} from '../defaults.constant';
 import {MozLayoutAreaState, MozModuleInitialConfig} from '../moz-layout.module';
 
 export class MozLayoutConfigFactory {
 
     private config: MozModuleInitialConfig = {
         initialStates: MozLayoutInitialStates,
-        availableStates: MozLayoutStates
+        availableStates: MozLayoutStates,
+        layoutAreaAnimations: MozDefaultLayoutAnimations
     };
     providedConfig: any;
 
@@ -23,12 +24,13 @@ export class MozLayoutConfigFactory {
         try {
             this.mergeAvailableStates();
             this.mergeInitialStates();
+            this.mergeAnimations();
             return this.config;
         } catch (error) {
-            console.log(error);
             return {
                 initialStates: MozLayoutInitialStates,
-                availableStates: MozLayoutStates
+                availableStates: MozLayoutStates,
+                layoutAreaAnimations: MozDefaultLayoutAnimations
             };
         }
     }
@@ -48,6 +50,25 @@ export class MozLayoutConfigFactory {
             }
         } catch (error) {
             return false;
+        }
+    }
+
+    private ifMozAnimation(animation: any) {
+        return animation.hasOwnProperty('speed') && animation.hasOwnProperty('animation')
+    }
+
+    private mergeAnimations() {
+        if (this.providedConfig.hasOwnProperty('layoutAreaAnimations')) {
+
+            for (const areaKey in this.config.layoutAreaAnimations) {
+                if (this.providedConfig.layoutAreaAnimations.hasOwnProperty(areaKey)) {
+
+                    if (this.ifMozAnimation(this.providedConfig.layoutAreaAnimations[areaKey])) {
+                        this.config.layoutAreaAnimations[areaKey] = this.providedConfig.layoutAreaAnimations[areaKey];
+                    }
+                }
+            }
+
         }
     }
 

@@ -41,20 +41,61 @@ export const MOZ_GSAP_ANIMATIONS = {
 
 };
 
-export class MozAnimationConfig {
-    animation: Ease = Elastic.easeOut;
+export interface MozAnimationConfigInterface {
+    speed: number;
+    animation: string;
+}
+
+export interface MozAnimationsConfigurationInterface {
+    TH: MozAnimationConfigInterface;
+    MH: MozAnimationConfigInterface;
+    BH: MozAnimationConfigInterface;
+    LS: MozAnimationConfigInterface;
+    LC: MozAnimationConfigInterface;
+    RC: MozAnimationConfigInterface;
+    RS: MozAnimationConfigInterface;
+    TF: MozAnimationConfigInterface;
+    MF: MozAnimationConfigInterface;
+    BF: MozAnimationConfigInterface;
+}
+
+export class MozAnimationConfig implements MozAnimationConfigInterface {
+
+
+    get animation(): string {
+        return this._animation;
+    }
+
+    set animation(value: string) {
+        if (MOZ_GSAP_ANIMATIONS.hasOwnProperty(value)) {
+            this._animation = value;
+        } else {
+            throw new Error('Provided animation do not exist');
+        }
+    }
+
+    private _animation: string;
     speed = 1;
+
+
+    constructor(animation: string = 'ElasticOut', speed: number = 1) {
+        this.animation = animation;
+        this.speed = speed;
+    }
+
+    public getAnimations() {
+        return Object.keys(MOZ_GSAP_ANIMATIONS);
+    }
+
 }
 
 export class MozLayoutAnimations {
 
-    public static getAnimations() {
-        return Object.keys(MOZ_GSAP_ANIMATIONS);
-    }
-
     public static getAnimationByKey(animationKey: string) {
         if (MOZ_GSAP_ANIMATIONS.hasOwnProperty(animationKey)) {
             return MOZ_GSAP_ANIMATIONS[animationKey];
+        }else {
+            throw new Error('Provided animation do not exist');
         }
     }
 
@@ -68,7 +109,7 @@ export class MozLayoutAnimations {
             };
             TweenLite.to(v, config.speed, {
                 value: this.endValue,
-                ease: config.animation,
+                ease: MozLayoutAnimations.getAnimationByKey(config.animation),
                 onUpdate: () => {
                     observer.next(v.value);
                 },
