@@ -26,7 +26,7 @@
       active:(layout.getAreaBehaviorSubject('LC') | async) === 'on',
       transition:(layout.getAreaBehaviorSubject('LC') | async) === 'transition'
     }"></span></div>
-    <div class="item mc" ></div>
+    <div class="item mc" (click)="layout.saveCurrentLayoutConfig()">SAVE LAYOUT</div>
     <div class="item rc" (click)="toggle('RC')"><span [ngClass]="{
       indication:true,
       active:(layout.getAreaBehaviorSubject('RC') | async) === 'on',

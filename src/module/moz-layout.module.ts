@@ -16,6 +16,7 @@ import {BotFooterComponent} from './components/bot-footer/bot-footer.component';
 import {MozDynamicComponentModule} from './dynamic-component/moz-dynamic-component.module';
 import {NoComponentComponent} from './components/no-component/no-component.component';
 import {BaseBlockComponent} from './components/base-block/base-block.component';
+import {MozAnimationConfigInterface, MozAnimationsConfigurationInterface} from './class/moz-animations';
 
 export * from './moz-layout.component';
 export * from './moz-layout.service';
@@ -50,6 +51,19 @@ export interface MozPartialLayoutConfig {
         MF?: MozLayoutAreaState[];
         BF?: MozLayoutAreaState[];
     };
+
+    layoutAreaAnimations?: {
+        TH?: MozAnimationConfigInterface;
+        MH?: MozAnimationConfigInterface;
+        BH?: MozAnimationConfigInterface;
+        LS?: MozAnimationConfigInterface;
+        LC?: MozAnimationConfigInterface;
+        RC?: MozAnimationConfigInterface;
+        RS?: MozAnimationConfigInterface;
+        TF?: MozAnimationConfigInterface;
+        MF?: MozAnimationConfigInterface;
+        BF?: MozAnimationConfigInterface;
+    };
 }
 
 export interface LayoutInitialStates {
@@ -81,6 +95,7 @@ export interface MozLayoutAreaStates {
 export interface MozModuleInitialConfig {
     initialStates: LayoutInitialStates;
     availableStates: MozLayoutAreaStates;
+    layoutAreaAnimations: MozAnimationsConfigurationInterface;
 }
 
 const MOZ_LAYOUT_CONFIG = new InjectionToken('MOZ_LAYOUT_CONFIG');

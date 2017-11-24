@@ -1,5 +1,5 @@
 import {MozServiceDataLoad} from './moz-service.data.load';
-import {MozLayoutAnimations} from '../class/moz-animations';
+import {MozAnimationConfig, MozLayoutAnimations} from '../class/moz-animations';
 
 export class MozDomManipulator extends MozServiceDataLoad {
 
@@ -38,7 +38,12 @@ export class MozDomManipulator extends MozServiceDataLoad {
     public setLayoutAreaSize(areaKey: string, value: number) {
         this.isValidArea(areaKey);
         const animation = new MozLayoutAnimations(this.currentLayoutSize[areaKey], value);
-        animation.animate().subscribe((newValue: number) => {
+
+        const animationConfig = new MozAnimationConfig(
+            this.animationConfig[areaKey].animation,
+            this.animationConfig[areaKey].speed);
+
+        animation.animate(animationConfig).subscribe((newValue: number) => {
             this.getAreaBehaviorSubject(areaKey).next(this.getAreaStateNameByValue(areaKey, newValue, 'transition'));
             this.currentLayoutSize[areaKey] = newValue;
         }, () => {

@@ -1,3 +1,5 @@
+import {MozAnimationConfig, MozAnimationsConfigurationInterface} from './class/moz-animations';
+
 export const MozLayoutInitialStates = {
     TH: 'off',
     MH: 'off',
@@ -10,7 +12,48 @@ export const MozLayoutInitialStates = {
     MF: 'off',
     BF: 'off'
 };
-
+export const MozDefaultLayoutAnimations: MozAnimationsConfigurationInterface = {
+    TH: {
+        speed: 1,
+        animation: 'ElasticOut'
+    },
+    MH: {
+        speed: 1,
+        animation: 'ElasticOut'
+    },
+    BH: {
+        speed: 1,
+        animation: 'ElasticOut'
+    },
+    LS: {
+        speed: 1,
+        animation: 'ElasticOut'
+    },
+    LC: {
+        speed: 1,
+        animation: 'ElasticOut'
+    },
+    RC: {
+        speed: 1,
+        animation: 'ElasticOut'
+    },
+    RS: {
+        speed: 1,
+        animation: 'ElasticOut'
+    },
+    TF: {
+        speed: 1,
+        animation: 'ElasticOut'
+    },
+    MF: {
+        speed: 1,
+        animation: 'ElasticOut'
+    },
+    BF: {
+        speed: 1,
+        animation: 'ElasticOut'
+    }
+};
 
 export const MozLayoutStates = {
     TH: [

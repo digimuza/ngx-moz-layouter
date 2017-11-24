@@ -5,16 +5,22 @@ import {
     MozModuleInitialConfig
 } from '../moz-layout.module';
 import {MozLayoutConfigFactory} from '../class/moz-layout-config-factory';
+import {
+    MozAnimationConfig,
+    MozAnimationConfigInterface, MozAnimationsConfigurationInterface,
+    MozLayoutAnimations
+} from '../class/moz-animations';
 
 export const MozLocalStorageKey = 'MOZ_LAYOUT_CONFIG';
+
 
 export class MozServiceDataLoad {
 
     protected currentLayoutSize: MozLayoutSizeObject;
     protected availableLayoutStates: MozLayoutAreaStates;
-    protected currentLayoutState: MozCurrentLayoutState;
-
+    protected currentLayoutStateBehaviorSubjects: MozCurrentLayoutState;
     protected config: MozModuleInitialConfig;
+    protected animationConfig: MozAnimationsConfigurationInterface;
 
     constructor() {
         this.config = this.getLayoutConfigFromLocalStorage();
@@ -23,6 +29,49 @@ export class MozServiceDataLoad {
 
     public saveCurrentLayoutConfig() {
         localStorage.setItem(MozLocalStorageKey, JSON.stringify(this.getCurrentConfig()));
+    }
+
+    public setAreaAnimation(areaKey: string, animation: MozAnimationConfigInterface) {
+        this.isValidArea(areaKey);
+        MozLayoutAnimations.getAnimationByKey(animation.animation);
+        this.animationConfig[areaKey] = animation;
+    }
+
+    public getAnimationData(areaKey: string): MozAnimationConfigInterface {
+        this.isValidArea(areaKey);
+        return this.animationConfig[areaKey];
+    }
+
+    public getAvailableAnimations(): string[] {
+        const animation = new MozAnimationConfig();
+        return animation.getAnimations();
+    }
+
+    public addNewLayoutState(areaKey: string, state: MozLayoutAreaState) {
+        this.isValidArea(areaKey);
+        let stateValueDoNotExist = false;
+        let stateNameDoNotExist = false;
+        // IF state with value or name is not in available states we can add state
+
+        try {
+            this.getAreaStateByName(areaKey, state.state);
+        } catch (error) {
+            stateNameDoNotExist = true;
+        }
+
+        const findStateWithValue = this.getAreaStateNameByValue(areaKey, state.value, 'undefined_state');
+        if (findStateWithValue === 'undefined_state') {
+            stateValueDoNotExist = true;
+        }
+
+        if (stateValueDoNotExist && stateNameDoNotExist) {
+            this.availableLayoutStates[areaKey].push(state);
+        } else {
+            const msg = 'State with value or name exist';
+            const errorMsg = `${msg} stateValueDoNotExist:${stateValueDoNotExist} stateNameDoNotExist:${stateNameDoNotExist}`;
+            throw new Error(errorMsg);
+        }
+
     }
 
     public getAreaKeysArray(): string[] {
@@ -87,7 +136,7 @@ export class MozServiceDataLoad {
 
     public getAreaBehaviorSubject(areaKey: string) {
         this.isValidArea(areaKey);
-        return this.currentLayoutState[areaKey];
+        return this.currentLayoutStateBehaviorSubjects[areaKey];
     }
 
     private initialSizesFromConfig(): void {
@@ -120,8 +169,9 @@ export class MozServiceDataLoad {
 
     private init() {
         this.availableLayoutStates = this.config.availableStates;
+        this.animationConfig = this.config.layoutAreaAnimations;
         this.initialSizesFromConfig();
-        this.currentLayoutState = {
+        this.currentLayoutStateBehaviorSubjects = {
             TH: new BehaviorSubject(this.getCurrentAreaStateName('TH')),
             MH: new BehaviorSubject(this.getCurrentAreaStateName('MH')),
             BH: new BehaviorSubject(this.getCurrentAreaStateName('BH')),
@@ -134,6 +184,7 @@ export class MozServiceDataLoad {
             BF: new BehaviorSubject(this.getCurrentAreaStateName('BF'))
         }
     }
+
 
     private getCurrentConfig(): MozModuleInitialConfig {
         const initialStates: LayoutInitialStates = {
@@ -154,10 +205,12 @@ export class MozServiceDataLoad {
         });
 
         const availableStates: MozLayoutAreaStates = this.availableLayoutStates;
+        const layoutAreaAnimations: MozAnimationsConfigurationInterface = this.animationConfig;
 
         return {
             initialStates: initialStates,
-            availableStates: availableStates
+            availableStates: availableStates,
+            layoutAreaAnimations: layoutAreaAnimations
         }
 
     }
