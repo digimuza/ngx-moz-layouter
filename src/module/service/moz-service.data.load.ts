@@ -1,18 +1,32 @@
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {MozCurrentLayoutState, MozLayoutSizeObject} from "../moz-layout.service";
-import {MozLayoutAreaState, MozLayoutAreaStates, MozModuleInitialConfig} from "../moz-layout.module";
-import {MozLayoutConfigFactory} from "../class/moz-layout-config-factory";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {MozCurrentLayoutState, MozLayoutSizeObject} from '../moz-layout.service';
+import {
+    LayoutInitialStates, MozLayoutAreaState, MozLayoutAreaStates,
+    MozModuleInitialConfig
+} from '../moz-layout.module';
+import {MozLayoutConfigFactory} from '../class/moz-layout-config-factory';
+
+export const MozLocalStorageKey = 'MOZ_LAYOUT_CONFIG';
 
 export class MozServiceDataLoad {
 
-    private currentLayoutSize: MozLayoutSizeObject;
-    private availableLayoutStates: MozLayoutAreaStates;
-    private currentLayoutState: MozCurrentLayoutState;
+    protected currentLayoutSize: MozLayoutSizeObject;
+    protected availableLayoutStates: MozLayoutAreaStates;
+    protected currentLayoutState: MozCurrentLayoutState;
 
-    private config: MozModuleInitialConfig;
+    protected config: MozModuleInitialConfig;
 
     constructor() {
         this.config = this.getLayoutConfigFromLocalStorage();
+        this.init();
+    }
+
+    public saveCurrentLayoutConfig() {
+        localStorage.setItem(MozLocalStorageKey, JSON.stringify(this.getCurrentConfig()));
+    }
+
+    public getAreaKeysArray(): string[] {
+        return Object.keys(this.availableLayoutStates);
     }
 
     public getAreaStateNameByValue(areaKey: string, value: number, undefinedState: string = 'transition'): string {
@@ -53,7 +67,7 @@ export class MozServiceDataLoad {
     public getCurrentAreaStateName(areaKey: string) {
         this.isValidArea(areaKey);
         const areaSize: number = this.getAreaSize(areaKey);
-        return this.getAreaStateNameByValue(areaKey,areaSize);
+        return this.getAreaStateNameByValue(areaKey, areaSize);
 
     }
 
@@ -66,12 +80,47 @@ export class MozServiceDataLoad {
     }
 
     public getLayoutConfigFromLocalStorage(): MozModuleInitialConfig {
-        const config = JSON.parse(localStorage.getItem('MOZ_LAYOUT_CONFIG'));
+        const config = JSON.parse(localStorage.getItem(MozLocalStorageKey));
         const configMerger = new MozLayoutConfigFactory(config);
         return configMerger.getMergedConfig();
     }
 
-    private initLayoutBehaviorSubjects(){
+    public getAreaBehaviorSubject(areaKey: string) {
+        this.isValidArea(areaKey);
+        return this.currentLayoutState[areaKey];
+    }
+
+    private initialSizesFromConfig(): void {
+
+        // Creating initial sizes from config.
+        const areaKeys = Object.keys(this.availableLayoutStates);
+        const currentLayoutSizes: MozLayoutSizeObject = {
+            TH: 0,
+            MH: 0,
+            BH: 0,
+            LS: 0,
+            LC: 0,
+            RC: 0,
+            RS: 0,
+            TF: 0,
+            MF: 0,
+            BF: 0
+        };
+        areaKeys.forEach((areaKey: string) => {
+            try {
+                currentLayoutSizes[areaKey] = this.getAreaStateByName(areaKey, this.config.initialStates[areaKey]).value;
+            } catch (error) {
+                currentLayoutSizes[areaKey] = 0;
+            }
+        });
+
+        this.currentLayoutSize = currentLayoutSizes;
+    }
+
+
+    private init() {
+        this.availableLayoutStates = this.config.availableStates;
+        this.initialSizesFromConfig();
         this.currentLayoutState = {
             TH: new BehaviorSubject(this.getCurrentAreaStateName('TH')),
             MH: new BehaviorSubject(this.getCurrentAreaStateName('MH')),
@@ -85,4 +134,32 @@ export class MozServiceDataLoad {
             BF: new BehaviorSubject(this.getCurrentAreaStateName('BF'))
         }
     }
+
+    private getCurrentConfig(): MozModuleInitialConfig {
+        const initialStates: LayoutInitialStates = {
+            TH: '',
+            MH: '',
+            BH: '',
+            LS: '',
+            LC: '',
+            RC: '',
+            RS: '',
+            TF: '',
+            MF: '',
+            BF: ''
+        };
+
+        this.getAreaKeysArray().forEach((areaKey: string) => {
+            initialStates[areaKey] = this.getCurrentAreaStateName(areaKey);
+        });
+
+        const availableStates: MozLayoutAreaStates = this.availableLayoutStates;
+
+        return {
+            initialStates: initialStates,
+            availableStates: availableStates
+        }
+
+    }
+
 }

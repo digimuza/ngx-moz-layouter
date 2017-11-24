@@ -3,54 +3,54 @@
   <div class="toogle-controller">
     <div class="item th" (click)="toggle('TH')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('TH') | async) === 'on',
-      transition:(layout.getAreaState('TH') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('TH') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('TH') | async) === 'transition'
     }"></span></div>
     <div class="item mh" (click)="toggle('MH')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('MH') | async) === 'on',
-      transition:(layout.getAreaState('MH') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('MH') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('MH') | async) === 'transition'
     }"></span></div>
     <div class="item bh" (click)="toggle('BH')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('BH') | async) === 'on',
-      transition:(layout.getAreaState('BH') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('BH') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('BH') | async) === 'transition'
     }"></span></div>
     <div class="item ls" (click)="toggle('LS')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('LS') | async) === 'on',
-      transition:(layout.getAreaState('LS') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('LS') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('LS') | async) === 'transition'
     }"></span></div>
     <div class="item lc" (click)="toggle('LC')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('LC') | async) === 'on',
-      transition:(layout.getAreaState('LC') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('LC') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('LC') | async) === 'transition'
     }"></span></div>
     <div class="item mc" ></div>
     <div class="item rc" (click)="toggle('RC')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('RC') | async) === 'on',
-      transition:(layout.getAreaState('RC') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('RC') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('RC') | async) === 'transition'
     }"></span></div>
     <div class="item rs" (click)="toggle('RS')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('RS') | async) === 'on',
-      transition:(layout.getAreaState('RS') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('RS') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('RS') | async) === 'transition'
     }"></span></div>
     <div class="item tf" (click)="toggle('TF')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('TF') | async) === 'on',
-      transition:(layout.getAreaState('TF') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('TF') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('TF') | async) === 'transition'
     }"></span></div>
     <div class="item mf" (click)="toggle('MF')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('MF') | async) === 'on',
-      transition:(layout.getAreaState('MF') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('MF') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('MF') | async) === 'transition'
     }"></span></div>
     <div class="item bf" (click)="toggle('BF')"><span [ngClass]="{
       indication:true,
-      active:(layout.getAreaState('BF') | async) === 'on',
-      transition:(layout.getAreaState('BF') | async) === 'transition'
+      active:(layout.getAreaBehaviorSubject('BF') | async) === 'on',
+      transition:(layout.getAreaBehaviorSubject('BF') | async) === 'transition'
     }"></span></div>
   </div>
 
