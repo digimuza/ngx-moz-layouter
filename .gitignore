@@ -30,6 +30,7 @@
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
+release.sh
 testem.log
 /typings
 /config/gulp-tasks/README.md
